@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css';
+import { storage, db, auth } from './firebase'
 
 function App() {
   return (
