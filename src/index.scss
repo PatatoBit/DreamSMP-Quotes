@@ -1,0 +1,37 @@
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quote-container {
+  @include flex-center;
+  height: 70vh;
+}
+
+.quote-input {
+  text-align: center;
+
+  width: 50vh;
+}
+
+.quote-file {
+  text-align: center;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  display: grid;
+}
+
+.quote-button {
+  text-align: center;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  display: grid;
+  width: 25vh;
+}
+
+.form-container {
+  height: 20vh;
+}
