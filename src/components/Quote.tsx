@@ -1,31 +1,36 @@
+// eslint-disable-next-line
 import React, { useState } from 'react'
-import { storage, db, auth } from '../firebase'
-import { ref } from 'firebase/storage'
+// eslint-disable-next-line 
+import { collection, getDocs } from "firebase/firestore"; 
+import { db } from '../firebase'
+
 
 function Quote() {
     let [quote, setQuote] = useState('');
+    let quotesArr:any = [];
     let prevQuote: string;
     let dummyQuote: string;
 
+    const quotesRef = collection(db, 'quotes')
 
-    // replace this with Firestore later
-    const quoteArr = [
-      'Just killed a woman, feeling good.',
-      'Mum, am I adoted?',
-      'I want a pet moth and I want to name it ✨Clementine✨'
-    ]
-    
     const nextQuote = async (e: any) => {
+      // get every docs from firestore and store it into an array
       e.preventDefault();
+      const docsSnap = await getDocs(collection(db,"quotes/TommyInnit/quotes"));
+      docsSnap.forEach((doc) => {
+        quotesArr.push(doc.data().content);
+      });
       
       prevQuote = quote;
-      dummyQuote = quoteArr[Math.floor(Math.random() * quoteArr.length)]
+      dummyQuote = quotesArr[Math.floor(Math.random() * quotesArr.length)]
       while(prevQuote === dummyQuote) {
-        dummyQuote = quoteArr[Math.floor(Math.random() * quoteArr.length)]
+        dummyQuote = quotesArr[Math.floor(Math.random() * quotesArr.length)]
       }
       setQuote(quote = dummyQuote)
       
       console.log(`${dummyQuote}\n${quote}\n${prevQuote}`)
+      console.log(quotesArr);
+
     }
     return (
       <div className="quote-container">
