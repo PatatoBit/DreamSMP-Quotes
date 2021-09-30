@@ -7,35 +7,46 @@ import { db } from '../firebase'
 
 function Quote() {
     let [quote, setQuote] = useState('');
+    let [author, setAuthor] = useState('');
     let quotesArr:any = [];
-    let prevQuote: string;
-    let dummyQuote: string;
-
-    const quotesRef = collection(db, 'quotes')
 
     const nextQuote = async (e: any) => {
       // get every docs from firestore and store it into an array
       e.preventDefault();
-      const docsSnap = await getDocs(collection(db,"quotes/TommyInnit/quotes"));
+      const docsSnap = await getDocs(collection(db,"quotes"));
       docsSnap.forEach((doc) => {
-        quotesArr.push(doc.data().content);
+        quotesArr.push({
+          content: doc.data().content,
+          author: doc.data().author
+        });
       });
       
-      prevQuote = quote;
-      dummyQuote = quotesArr[Math.floor(Math.random() * quotesArr.length)]
-      while(prevQuote === dummyQuote) {
-        dummyQuote = quotesArr[Math.floor(Math.random() * quotesArr.length)]
-      }
-      setQuote(quote = dummyQuote)
+      let random = Math.floor(Math.random() * quotesArr.length)
+      let prevQuote = quote;
+      let prevAuthor = author;
+
+      let dummyQuote = quotesArr[random].content
+      let dummyAuthor = quotesArr[random].author
       
-      console.log(`${dummyQuote}\n${quote}\n${prevQuote}`)
+      while(prevQuote === dummyQuote && prevAuthor === dummyAuthor) {
+        dummyQuote = quotesArr[random].content
+        dummyAuthor = quotesArr[random].author
+      }
+      
+      setQuote(quote = dummyQuote)
+      setAuthor(author = '- ' + dummyAuthor)
+
+      console.log(`Current: ${dummyQuote}\nPrevious: ${prevQuote}`)
       console.log(quotesArr);
+
 
     }
     return (
       <div className="quote-container">
         <div className="container">
           <h1 className="quote">{quote}</h1>
+          <div className="break"></div>
+          <h3 className='author'>{author}</h3>
           <div className="break"></div>
           <button onClick={nextQuote}>:)</button>
         </div>
