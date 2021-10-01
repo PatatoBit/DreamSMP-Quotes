@@ -21,22 +21,24 @@ function Quote() {
         });
       });
       
+
+
+      // random quote without being the same with the previous one
       let random = Math.floor(Math.random() * quotesArr.length)
-      let prevQuote = quote;
-      let prevAuthor = author;
-
-      let dummyQuote = quotesArr[random].content
-      let dummyAuthor = quotesArr[random].author
+      let dummyQuote: string = quotesArr[random];
+      let prevQuote: string = quote;
       
-      while(prevQuote === dummyQuote && prevAuthor === dummyAuthor) {
-        dummyQuote = quotesArr[random].content
-        dummyAuthor = quotesArr[random].author
+      while (dummyQuote === prevQuote) {
+        random =  Math.floor(Math.random() * quotesArr.length);
       }
-      
-      setQuote(quote = dummyQuote)
-      setAuthor(author = '- ' + dummyAuthor)
+      setQuote(quote = quotesArr[random].content);
+      setAuthor(author = quotesArr[random].author);
 
-      console.log(`Current: ${dummyQuote}\nPrevious: ${prevQuote}`)
+      
+      console.log(`Current Quote: ${quote}\nPrevious Quote: ${prevQuote}`);
+      
+      setQuote(quote = quotesArr[random].content)
+      setAuthor(author = `-` + quotesArr[random].author)
       console.log(quotesArr);
 
 
